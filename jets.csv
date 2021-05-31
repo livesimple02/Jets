@@ -1,0 +1,6 @@
+Category, Model, Speed MPH, Range Miles, Price, Capacity
+Cargo, Antonov An-225, 497, 2796, 225000000, 551156
+Cargo, Boeing 744-400F, 564, 4454, 268000000, 264554
+Passenger, Airbus A319 ACJ, 594, 7480, 92000000, 39
+Fighter, F-35A CTOL, 1227 , 1367, 78000000, 9
+Custom, Bombardier Challenger 300, 540, 3567, 7500000
