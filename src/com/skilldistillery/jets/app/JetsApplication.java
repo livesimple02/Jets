@@ -18,20 +18,21 @@ public class JetsApplication {
 
 	private Scanner input = new Scanner(System.in);
 	
-	
+// -----------------------------------------------------------------------------------------	
 	public static void main(String[] args) {
-
 
 		JetsApplication app = new JetsApplication();
 		app.runJetsApp();
 
-		
 	}
+	
+// -----------------------------------------------------------------------------------------		
 	
 	public void runJetsApp() {
 		
 		boolean keepRunning = true;
 		
+		// Build airfield using jets.csv file
 		Airfield airfield = initializeAirfield("jets.csv");
 		
 		while (keepRunning) {
@@ -40,81 +41,112 @@ public class JetsApplication {
 		
 	}
 	
+// -----------------------------------------------------------------------------------------	
+	
 	public boolean displayUserMenu(Airfield airfield) {
+		
+		boolean validEntry = false;
 		
 		System.out.println();
 		System.out.println("Enter the number of the option you would like to perform.");
-		System.out.println();
-		System.out.println("1. List Fleet");
+		System.out.println("-------------------------------");
+		System.out.println("1. List fleet");
 		System.out.println("2. Fly all jets");
 		System.out.println("3. View fastest jet");
 		System.out.println("4. View jet with longest range");
-		System.out.println("5. Load Cargo Jets");
-		System.out.println("6. Activate fighter jets");
-		System.out.println("7. Charter a passenger flight");
-		System.out.println("8. Add a jet to the fleet");
-		System.out.println("9. Remove a jet from the fleet");
-		System.out.println("10. Quit");
+		System.out.println("5. Load cargo jets");
+		System.out.println("6. Arm fighter jets");
+		System.out.println("7. Board a passenger jet");
+		System.out.println("8. Deliver the goods!");
+		System.out.println("9. Add a jet to the fleet");
+		System.out.println("10. Remove a jet from the fleet");
+		System.out.println("11. Quit");
+		System.out.println("-------------------------------");
 		
-		String userResponse = input.nextLine();
+		while (validEntry == false) {
+			System.out.print("Your Selection: ");
+			String userResponse = input.nextLine();
+			
+			switch (userResponse) {
+			case "1":
+				displayAllJets(airfield);
+				validEntry = true;
+				break;
+			case "2":
+				flyAllJets(airfield);
+				validEntry = true;
+				break;
+			case "3":
+				displayFastestJet(airfield);
+				validEntry = true;
+				break;
+			case "4":
+				displayLongestRangeJet(airfield);
+				validEntry = true;
+				break;
+			case "5":
+				loadCargoJets(airfield);
+				validEntry = true;
+				break;
+			case "6":
+				armFighterJets(airfield);
+				validEntry = true;
+				break;
+			case "7":
+				boardPassengers(airfield);
+				validEntry = true;
+				break;
+			case "8":
+				deliverTheGoods(airfield);
+				validEntry = true;
+				break;
+			case "9":
+				addNewJetToFleet(airfield);
+				validEntry = true;
+				break;
+			case "10":
+				removeJetFromFleet(airfield);
+				validEntry = true;
+				break;
+			case "11":
+				System.out.println();
+				System.out.println("Goodbye!");
+				validEntry = true;
+				return false;
+			default:
+				System.out.println("Invalid Entry. Please try again.");
+			}
+		}	
 		
-		switch (userResponse) {
-		case "1":
-			displayAllJets(airfield);
-			break;
-		case "2":
-			flyAllJets(airfield);
-			break;
-		case "3":
-			displayFastestJet(airfield);
-			break;
-		case "4":
-			displayLongestRangeJet(airfield);
-			break;
-		case "5":
-			loadCargoJets(airfield);
-			break;
-		case "6":
-			activateFighterJets(airfield);
-			break;
-		case "7":
-			transportPassengers(airfield);
-			break;
-		case "8":
-			addJetToFleet(airfield);
-			break;
-		case "9":
-			removeJetFromFleet(airfield);
-			break;
-		case "10":
-			System.out.println("Goodbye!");
-			return false;
-		default:
-			System.out.println("Invalid Entry. Please try again.");
-		}
-		
-		return true;
+		return true; // return to runJetsApp to stay in loop until option to quit is selected
 		
 	} // End of displayMenu method;
 	
+// -----------------------------------------------------------------------------------------		
 	
 	public void displayAllJets(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
 		
 		System.out.println();
 		System.out.println(airfield.getAirfieldName() + " contains the following jets:");
+		System.out.println("-------------------------------");
 		for (Jet jet : allJets) {
 			System.out.println(jet.toString());
 		}
 			
 	} // End of displayAllJets method
 	
+// -----------------------------------------------------------------------------------------	
+	
 	public void flyAllJets(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
+		System.out.println();
 		for (Jet jet : allJets) {
 			jet.fly();
 		}
 	} // End of flyAllJets method
+	
+// -----------------------------------------------------------------------------------------	
 	
 	public void displayFastestJet(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
@@ -130,10 +162,13 @@ public class JetsApplication {
 				fastestJet = jet;
 			}
 		}
-		System.out.println("The fastest jet in your fleet is the: ");
+		System.out.println();
+		System.out.println("The fastest jet at " + airfield.getAirfieldName() + " is:");
 		System.out.println(fastestJet.toString());
 		
 	} // End of displayFastestJet method
+	
+// -----------------------------------------------------------------------------------------	
 	
 	public void displayLongestRangeJet(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
@@ -149,14 +184,18 @@ public class JetsApplication {
 				longestRangeJet = jet;
 			}
 		}
-		System.out.println("The jet with the longest range in your fleet is the: ");
+		System.out.println();
+		System.out.println("The jet with the longest range at " + airfield.getAirfieldName() + " is:");
 		System.out.println(longestRangeJet.toString());
 		
 	} // End of displayLongestRangeJet
 	
+// -----------------------------------------------------------------------------------------	
 	
 	public void loadCargoJets(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
+		
+		// Build list of only Cargo Jets
 		List<CargoJet> allCargoJets = new ArrayList<>();
 		for (Jet jet : allJets) {
 	
@@ -166,18 +205,27 @@ public class JetsApplication {
 			}
 		}
 		
-		System.out.println("Please select the Cargo Jet you would like to load: ");
+		// Display option menu for all Cargo Jets
+		System.out.println();
+		System.out.println("Please select the Cargo Jet you would like to load or '0' to return to main menu: ");
+		System.out.println("-----------------------------------------------------");
 		int jetNumber = 1;
 		for (int i = 0; i < allCargoJets.size(); i++) {
 			System.out.println(jetNumber + ": " + allCargoJets.get(i).getModel() + "\t Cargo Capacity: " + allCargoJets.get(i).getCargoCapacityInLbs() + " pounds.");
 			jetNumber ++;
 		}
 		System.out.println(jetNumber + ": Load All Cargo Jets");
+		System.out.println("-----------------------------------------------------");
+		System.out.print("Your Selection: ");
 		
+		// Get user response and load jets with selected cargo
 		boolean validEntry = false;
 		while (validEntry == false) {
 			try {
 				int userResponseJetToLoad = Integer.valueOf(input.nextLine())-1;
+				if (userResponseJetToLoad == -1) {
+					break;
+				}
 				System.out.print("What percentage of cargo capcity would you like to load?: ");
 				int userResponsePercentageToLoad = input.nextInt();
 				input.nextLine();
@@ -193,14 +241,17 @@ public class JetsApplication {
 				}
 			}
 			catch (Exception e) {
-				System.out.println("Invalid Jet Selection. Please try again");
+				System.out.print("Invalid Jet Selection. Please try again: ");
 			}
 		}
 	}
 	
+// -----------------------------------------------------------------------------------------	
 	
-	public void activateFighterJets(Airfield airfield) {
+	public void armFighterJets(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
+		
+		// Build list of only fighter jets
 		List<FighterJet> allFighterJets = new ArrayList<>();
 		for (Jet jet : allJets) {
 	
@@ -210,14 +261,20 @@ public class JetsApplication {
 			}
 		}
 		
-		System.out.println("Please select the Fighter Jet you would like to activate: ");
+		// Display option menu for only fighter jets
+		System.out.println();
+		System.out.println("Please select the Fighter Jet you would like to activate or '0' to return to main menu: ");
+		System.out.println("-----------------------------------------------------");
 		int jetNumber = 1;
 		for (int i = 0; i < allFighterJets.size(); i++) {
-			System.out.println(jetNumber + ": " + allFighterJets.get(i).getModel() + "\t Payload Capacity: " + allFighterJets.get(i).getPayloadCapacity() + " tons.");
+			System.out.println(jetNumber + ": " + allFighterJets.get(i).getModel() + "\t Payload Capacity: " + allFighterJets.get(i).getPayloadCapacityInTons() + " tons.");
 			jetNumber ++;
 		}
 		System.out.println(jetNumber + ": Activate all Fighter Jets");
+		System.out.println("-----------------------------------------------------");
+		System.out.print("Your Selection: ");
 		
+		// Get user response and load jets with selected payload
 		boolean validEntry = false;
 		while (validEntry == false) {
 			try {
@@ -242,9 +299,12 @@ public class JetsApplication {
 		}
 	}
 	
+// -----------------------------------------------------------------------------------------	
 	
-	public void transportPassengers(Airfield airfield) {
+	public void boardPassengers(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
+		
+		// Build list of only Passenger Jets
 		List<PassengerJet> allPassengerJets = new ArrayList<>();
 		for (Jet jet : allJets) {
 	
@@ -254,18 +314,27 @@ public class JetsApplication {
 			}
 		}
 		
-		System.out.println("Please select the Passenger Jet you would like to load: ");
+		// Display Option Menu for only Passenger Jets
+		System.out.println();
+		System.out.println("Please select the Passenger Jet you would like to load or '0' to return to main menu: ");
+		System.out.println("-----------------------------------------------------");
 		int jetNumber = 1;
 		for (int i = 0; i < allPassengerJets.size(); i++) {
 			System.out.println(jetNumber + ": " + allPassengerJets.get(i).getModel() + "\t Capacity: " + allPassengerJets.get(i).getPassengerCapacity() + " persons.");
 			jetNumber ++;
 		}
 		System.out.println(jetNumber + ": Load All Passenger Jets");
+		System.out.println("-----------------------------------------------------");
+		System.out.print("Your Selection: ");
 		
+		// Get user response and load passengers based on capacity selection
 		boolean validEntry = false;
 		while (validEntry == false) {
 			try {
 				int userResponseJetToLoad = Integer.valueOf(input.nextLine())-1;
+				if (userResponseJetToLoad == -1) {
+					break;
+				}
 				System.out.print("What percentage of passenger capcity would you like to board?: ");
 				int userResponsePercentageToLoad = input.nextInt();
 				input.nextLine();
@@ -286,19 +355,107 @@ public class JetsApplication {
 		}
 	}
 	
-	public void addJetToFleet(Airfield airfield) {
+// -----------------------------------------------------------------------------------------	
+	
+	public void deliverTheGoods(Airfield airfield) {
+		List<Jet> allJets = airfield.getJets();
+		List<Jet> availableJets = new ArrayList<>();
+		
+		for (Jet jet : allJets) {
+			if (jet instanceof CargoJet && ((CargoJet) jet).getCargoOnBoard() > 0) {
+				availableJets.add(jet);
+			}
+			else if (jet instanceof FighterJet && ((FighterJet) jet).getPayloadOnboard() > 0) {
+				availableJets.add(jet);
+			}
+			else if (jet instanceof PassengerJet && ((PassengerJet) jet).getPassengersOnBoard() > 0) {
+				availableJets.add(jet);
+			}
+		}
+		
+		if (availableJets.size() == 0) {
+			System.out.println();
+			System.out.println("There is nothing to deliver on any of the jets");
+			System.out.println();
+			return;
+		}
+		
+		System.out.println();
+		System.out.println("The following jets are available for delivery.");
+		System.out.println("Select which jet you would like to fly or '0' to return to the main menu");
+		System.out.println("-----------------------------------------------------");
+		
+		int jetNumber = 1;
+		for (int i = 0; i < availableJets.size(); i++, jetNumber++) {
+			Jet currentJet = availableJets.get(i);
+			if (currentJet instanceof CargoJet) {
+				System.out.println(jetNumber + ": " + currentJet.getModel() + " has " + ((CargoJet)currentJet).getCargoOnBoard() + " lbs of cargo on board.");
+			}
+			else if (currentJet instanceof FighterJet) {
+				System.out.printf(jetNumber + ": " + currentJet.getModel() + " has %.1f tons of payload on board. \n", ((FighterJet)currentJet).getPayloadOnboard());
+			}
+			else {
+				System.out.println(jetNumber + ": " + currentJet.getModel() + " has " + ((PassengerJet)currentJet).getPassengersOnBoard() + " passengers on board.");
+			}
+		}
+		
+		System.out.println("-----------------------------------------------------");
+		System.out.print("Your Selection: ");
+		
+		boolean validEntry = false;
+		while (validEntry == false) {
+			try {
+				int userResponseJetToDeliver = Integer.valueOf(input.nextLine())-1;
+				if (userResponseJetToDeliver == -1) {
+					break;
+				}
+				else if (availableJets.get(userResponseJetToDeliver) instanceof CargoJet) {
+					CargoJet currentJet = (CargoJet)availableJets.get(userResponseJetToDeliver);
+					currentJet.unloadCargo();
+					validEntry = true;
+				}
+				else if (availableJets.get(userResponseJetToDeliver) instanceof FighterJet) {
+					FighterJet currentJet = (FighterJet)availableJets.get(userResponseJetToDeliver);
+					currentJet.fight();
+					validEntry = true;
+				}
+				else {
+					PassengerJet currentJet = (PassengerJet)availableJets.get(userResponseJetToDeliver);
+					currentJet.deboardPassengers();
+					validEntry = true;
+				}		
+		
+
+			}
+			catch (Exception e) {
+				System.out.print("Invalid Jet Selection. Please try again: ");
+			}
+		}
+		
+	}
+	
+// -----------------------------------------------------------------------------------------	
+	
+	public void addNewJetToFleet(Airfield airfield) {
 		boolean validResponse = false;
 		
-		System.out.println("Please select the type of aircraft you would like to add: ");
+		System.out.println();
+		System.out.println("Please select the type of aircraft you would like to add or '0' to return to main menu: ");
+		System.out.println("-----------------------------------------------------");
 		System.out.println("1. Cargo Jet");
 		System.out.println("2. Fighter Jet");
 		System.out.println("3. Passenger Jet");
 		System.out.println("4. Custom Jet");
+		System.out.println("-----------------------------------------------------");
+		System.out.print("Your Selection: ");
 		
 		while (validResponse == false) {
 			String userResponse = input.nextLine();
 			
 			switch (userResponse) {
+			case "0":
+				validResponse = true;
+				break;
 			case "1":
 			case "2":				
 			case "3":		
@@ -306,44 +463,48 @@ public class JetsApplication {
 				Jet jetToAdd = buildNewJet(userResponse);
 				airfield.getJets().add(jetToAdd);
 				validResponse = true;
-				System.out.println("Jet successfully added!");
+				System.out.println();
+				System.out.println("*** Jet successfully added! *** ");
+				System.out.println();
 				break;
 				
 			default:
-				System.out.println("Invalid Entry. Please try again");
+				System.out.println();
+				System.out.print("Invalid Entry. Please try again: ");
 			}
 			
 		}
 		
-
-		
 	}
 	
+// -----------------------------------------------------------------------------------------	
+	
 	public Jet buildNewJet(String selection) {
+		System.out.println();
 		System.out.print("Enter the model: ");
 		String model = input.nextLine();
 		System.out.print("Enter the speed in MPH: ");
 		double speed = input.nextDouble();
-		System.out.println("Enter the range in miles: ");
+		System.out.print("Enter the range in miles: ");
 		int range = input.nextInt();
-		System.out.println("Enter the price in dollars: ");
+		System.out.print("Enter the price in dollars: ");
 		long price = input.nextLong();
 		int capacity = 0;
 		Jet newJet;
 		
 		switch (selection) {
 		case "1":
-			System.out.println("Enter the cargo capacity in pounds: ");
+			System.out.print("Enter the cargo capacity in pounds: ");
 			capacity = input.nextInt();
 			newJet = new CargoJet(model, speed, range, price, capacity);
 			break;
 		case "2":
-			System.out.println("Enter the payload capacity in tons: ");
+			System.out.print("Enter the payload capacity in tons: ");
 			capacity = input.nextInt();
 			newJet = new FighterJet(model, speed, range, price, capacity);
 			break;
 		case "3":
-			System.out.println("Enter the passenger capacity: ");
+			System.out.print("Enter the passenger capacity: ");
 			capacity = input.nextInt();
 			newJet = new PassengerJet(model, speed, range, price, capacity);
 			break;
@@ -354,17 +515,23 @@ public class JetsApplication {
 		return newJet;
 	}
 	
+// -----------------------------------------------------------------------------------------	
 	
 	public void removeJetFromFleet(Airfield airfield) {
 		List<Jet> allJets = airfield.getJets();
 		boolean validResponse = false;
 		int jetNumber = 1;
 		
+		System.out.println();
 		System.out.println("Select the number of the jet you would like to remove or '0' to return to main menu: ");
+		System.out.println("-----------------------------------------------------");
 		for (int i = 0; i < allJets.size(); i++) {
 			System.out.println(jetNumber + ": " + allJets.get(i).toString());
 			jetNumber++ ;
 		}
+		System.out.println("-----------------------------------------------------");
+		System.out.print("Your Selection: ");
+		
 		while (validResponse == false) {
 			String userResponse = input.nextLine();
 			int userReponseInteger = Integer.valueOf(userResponse);
@@ -375,9 +542,12 @@ public class JetsApplication {
 				Jet jetToRemove = allJets.get(userReponseInteger - 1);
 				airfield.getJets().remove(jetToRemove);
 				validResponse = true;
-				System.out.println("Jet succesfully removed.");
+				System.out.println();
+				System.out.println("*** Jet succesfully removed. ***");
+				System.out.println();
 			}
 			else {
+				System.out.println("-----------------------------------------------------");
 				System.out.println("Invalid entry, please make another selection");
 			}
 		
@@ -385,7 +555,7 @@ public class JetsApplication {
 		}
 	}
 	
-	
+// -----------------------------------------------------------------------------------------	
 	
 	public Airfield initializeAirfield(String filename) {
 		System.out.println("Welcome to your fleet of Jets!");
@@ -397,6 +567,8 @@ public class JetsApplication {
 
 	} // End of initializeAirfield method
 	
+// -----------------------------------------------------------------------------------------	
+	
 	public List<Jet> readJetsFromFile(String filename) {
 		
 		List<Jet> jetsList = new ArrayList<>();
@@ -406,7 +578,7 @@ public class JetsApplication {
 			  while ((line = bufIn.readLine()) != null) {
 			    if (!line.startsWith("Category")) {
 			    	String[] arrOfStrings = line.split(", ");
-			    	Jet currentJet = buildJet(arrOfStrings);
+			    	Jet currentJet = buildInitialJets(arrOfStrings);
 			    	jetsList.add(currentJet);			    	
 			    }
 			  }
@@ -419,7 +591,9 @@ public class JetsApplication {
 		
 	} // End of readJetsFromFile method
 	
-	public Jet buildJet(String[] arrOfStrings) {
+// -----------------------------------------------------------------------------------------	
+	
+	public Jet buildInitialJets(String[] arrOfStrings) {
 		String category = "";
 		String model = "";
 		Double speed = 0.0;
@@ -457,7 +631,8 @@ public class JetsApplication {
 		
 		return currentJet;
 
-	} // End of buildJet method
+	} // End of buildInitialJets method
 	
-
+// -----------------------------------------------------------------------------------------	
+	
 }
